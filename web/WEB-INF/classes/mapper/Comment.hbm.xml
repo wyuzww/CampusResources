@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.ethan.entity">
+
+	<!-- 建立类与表的映射 -->
+	<class name="Comment" table="comment">
+		<!-- 建立类中的属性与表中的主键对应 -->
+		<id name="comment_id" column="comment_id" >
+			<!-- 主键生成策略 -->
+			<generator class="native"/>
+		</id>
+		
+		<!-- 建立类中的普通的属性和表的字段的对应 -->
+		<property name="comment_text" column="comment_text" />
+		<property name="comment_time" column="comment_time"/>
+
+		<!-- 创建映射 -->
+		<many-to-one name="comment_user" class="User" column="comment_uid" cascade="save-update"/>
+        <many-to-one name="comment_post" class="Post" column="comment_pid" cascade="save-update"/>
+
+		
+	</class>
+</hibernate-mapping>

@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 2.5//EN"
+        "http://struts.apache.org/dtds/struts-2.5.dtd">
+
+<struts>
+    <!-- 配置Struts2的常量 -->
+    <constant name="struts.action.extension" value="action"/>
+    <constant name="struts.multipart.maxSize" value="20971520"/>
+    <constant name="struts.enable.DynamicMethodInvocation" value="true" />
+
+    <!-- 配置Action -->
+
+    <package name="All" extends="struts-default" namespace="/">
+
+        <interceptors>
+            <interceptor name="adminPermission" class="com.ethan.web.interceptor.AdminPermission"/>
+            <interceptor name="userPermission" class="com.ethan.web.interceptor.UserPermission"/>
+        </interceptors>
+        <global-results>
+            <result name="login" type="redirectAction">
+                <param name="namespace">/</param>
+                <param name="actionName">user_toLogin</param>
+            </result>
+            <result name="adminMain" type="redirectAction">
+                <param name="namespace">/admin</param>
+                <param name="actionName">admin_main</param>
+            </result>
+            <result name="userMain" type="redirectAction">
+                <param name="namespace">/user</param>
+                <param name="actionName">user_main</param>
+            </result>
+        </global-results>
+
+
+        <global-allowed-methods>regex:.*</global-allowed-methods>
+
+        <action name="user_*" class="userAction" method="{1}">
+            <result name="input">/WEB-INF/views/login.jsp</result>
+            <result name="login">/WEB-INF/views/login.jsp</result>
+            <result name="main">/WEB-INF/views/before/main.jsp</result>
+            <result name="register">/WEB-INF/views/before/register.jsp</result>
+        </action>
+
+        <action name="res_*" class="resourceAction" method="{1}">
+            <result name="res">/WEB-INF/views/before/resource.jsp</result>
+        </action>
+
+        <action name="post_*" class="postAction" method="{1}">
+            <result name="forum">/WEB-INF/views/before/forum.jsp</result>
+        </action>
+
+        <action name="register_*" class="registerAction" method="{1}">
+            <result name="input">/WEB-INF/views/before/register.jsp</result>
+        </action>
+
+
+    </package>
+
+    <package name="User" extends="struts-default" namespace="/user">
+        <interceptors>
+            <interceptor name="adminPermission" class="com.ethan.web.interceptor.AdminPermission"/>
+            <interceptor name="userPermission" class="com.ethan.web.interceptor.UserPermission"/>
+        </interceptors>
+        <global-results>
+            <result name="login" type="redirectAction">
+                <param name="namespace">/</param>
+                <param name="actionName">user_toLogin</param>
+            </result>
+            <result name="adminMain" type="redirectAction">
+                <param name="namespace">/admin</param>
+                <param name="actionName">admin_main</param>
+            </result>
+            <result name="userMain" type="redirectAction">
+                <param name="namespace">/user</param>
+                <param name="actionName">user_main</param>
+            </result>
+        </global-results>
+        <global-allowed-methods>regex:.*</global-allowed-methods>
+
+
+        <action name="user_*" class="userAction" method="{1}">
+            <result name="main">/WEB-INF/views/before/main.jsp</result>
+            <result name="exit" >/WEB-INF/views/exit.jsp</result>
+            <result name="center">/WEB-INF/views/before/user_main.jsp</result>
+            <result name="myCenter" type="redirectAction">user_center</result>
+            <result name="toUpdatePwd">/WEB-INF/views/before/update_pwd.jsp</result>
+            <result name="myRes">/WEB-INF/views/before/user_resource.jsp</result>
+            <result name="myPost">/WEB-INF/views/before/user_post.jsp</result>
+            <result name="myCollect">/WEB-INF/views/before/user_collect.jsp</result>
+            <result name="myFollow">/WEB-INF/views/before/user_follow.jsp</result>
+            <result name="personCenter">/WEB-INF/views/before/user_info.jsp</result>
+            <result name="personRes">/WEB-INF/views/before/ouser_resource.jsp</result>
+            <result name="personPost">/WEB-INF/views/before/ouser_post.jsp</result>
+            <result name="findUser">/WEB-INF/views/before/find_user.jsp</result>
+            <interceptor-ref name="userPermission">
+                <param name="excludeMethods">exit</param>
+            </interceptor-ref>
+            <interceptor-ref name="defaultStack"/>
+        </action>
+
+        <action name="res_*" class="resourceAction" method="{1}">
+            <!--<param name="imagesPath">/upload/images</param>-->
+            <!--<param name="resPath">/upload/resources</param>-->
+            <result name="detail">/WEB-INF/views/before/resource_details.jsp</result>
+            <result name="toUpload">/WEB-INF/views/before/upload.jsp</result>
+            <!--<result name="upload">/WEB-INF/views/before/upload.jsp</result>-->
+            <interceptor-ref name="fileUpload">
+                <param name="maximumSize">20971520</param>
+            </interceptor-ref>
+            <interceptor-ref name="userPermission"/>
+            <interceptor-ref name="defaultStack"/>
+        </action>
+        <action name="post_*" class="postAction" method="{1}">
+            <result name="detail">/WEB-INF/views/before/post_details.jsp</result>
+            <result name="toPost">/WEB-INF/views/before/post.jsp</result>
+            <interceptor-ref name="fileUpload">
+                <param name="maximumSize">20971520</param>
+            </interceptor-ref>
+            <interceptor-ref name="userPermission"/>
+            <interceptor-ref name="defaultStack"/>
+        </action>
+        <action name="comment_*" class="commentAction" method="{1}">
+            <interceptor-ref name="userPermission"/>
+            <interceptor-ref name="defaultStack"/>
+        </action>
+
+    </package>
+
+    <package name="Admin" extends="struts-default" namespace="/admin">
+        <interceptors>
+            <interceptor name="adminPermission" class="com.ethan.web.interceptor.AdminPermission"/>
+            <interceptor name="userPermission" class="com.ethan.web.interceptor.UserPermission"/>
+        </interceptors>
+        <global-results>
+            <result name="login" type="redirectAction">
+                <param name="namespace">/</param>
+                <param name="actionName">user_toLogin</param>
+            </result>
+            <result name="adminMain" type="redirectAction">
+                <param name="namespace">/admin</param>
+                <param name="actionName">admin_main</param>
+            </result>
+            <result name="userMain" type="redirectAction">
+                <param name="namespace">/user</param>
+                <param name="actionName">user_main</param>
+            </result>
+        </global-results>
+        <global-allowed-methods>regex:.*</global-allowed-methods>
+
+
+        <action name="admin_*" class="adminAction" method="{1}">
+            <result name="main">/WEB-INF/views/after/main.jsp</result>
+            <result name="exit" type="redirectAction">
+                <param name="namespace">/user</param>
+                <param name="actionName">user_exit</param>
+            </result>
+            <result name="studentManager">/WEB-INF/views/after/studentManager.jsp</result>
+            <result name="teacherManager">/WEB-INF/views/after/teacherManager.jsp</result>
+            <result name="registerManager">/WEB-INF/views/after/registerManager.jsp</result>
+            <result name="postManager">/WEB-INF/views/after/postManager.jsp</result>
+            <result name="resourceManager">/WEB-INF/views/after/resourceManager.jsp</result>
+            <result name="categoryManager">/WEB-INF/views/after/categoryManager.jsp</result>
+            <result name="commentManager">/WEB-INF/views/after/commentManager.jsp</result>
+            <interceptor-ref name="adminPermission"/>
+            <interceptor-ref name="defaultStack"/>
+        </action>
+
+        <action name="cate_*" class="categoryAction" method="{1}">
+            <interceptor-ref name="adminPermission"/>
+            <interceptor-ref name="defaultStack"/>
+        </action>
+
+    </package>
+
+</struts>

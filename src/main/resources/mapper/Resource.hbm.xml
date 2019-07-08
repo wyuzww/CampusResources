@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.ethan.entity">
+
+	<!-- 建立类与表的映射 -->
+	<class name="Resource" table="resource">
+		<!-- 建立类中的属性与表中的主键对应 -->
+		<id name="resource_id" column="resource_id" >
+			<!-- 主键生成策略 -->
+			<generator class="native"/>
+		</id>
+		
+		<!-- 建立类中的普通的属性和表的字段的对应 -->
+		<property name="resource_desc" column="resource_desc" />
+		<property name="resource_image" column="resource_image"/>
+		<property name="resource_level" column="resource_level"/>
+		<property name="resource_name" column="resource_name"/>
+		<property name="resource_time" column="resource_time" />
+		<property name="resource_url" column="resource_url"/>
+		<property name="resource_good" column="resource_good"/>
+		<!-- 创建映射 -->
+		<many-to-one name="resource_uploadUser" class="User" column="resource_uid" cascade="save-update"/>
+		<many-to-one name="resource_category" class="Category" column="resource_cid" cascade="save-update"/>
+		<set name="resource_collectUserSet" table="collect" inverse="true"  cascade="save-update" >
+			<key column="collect_rid" />
+			<many-to-many class="User" column="collect_uid"/>
+		</set>
+
+		
+	</class>
+</hibernate-mapping>

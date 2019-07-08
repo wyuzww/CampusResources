@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="com.ethan.entity">
+	<!-- 建立类与表的映射 -->
+	<class name="User" table="user" >
+		<!-- 建立类中的属性与表中的主键对应 -->
+		<id name="user_id" column="user_id" >
+			<!-- 主键生成策略 -->
+			<generator class="assigned"/>
+		</id>
+		
+		<!-- 建立类中的普通的属性和表的字段的对应 -->
+		<property name="user_password" column="user_password" />
+		<property name="user_level" column="user_level"/>
+
+        <!-- 创建映射 -->
+        <one-to-one name="user_student" class="Student" cascade="all"  />
+        <one-to-one name="user_teacher" class="Teacher" cascade="all" />
+
+        <set name="user_commentSet" inverse="true" cascade="all" >
+            <key column="comment_uid" />
+            <one-to-many class="Comment"/>
+        </set>
+        <set name="user_postSet" inverse="true" cascade="all" >
+            <key column="post_uid" />
+            <one-to-many class="Post"/>
+        </set>
+        <set name="user_uploadResourceSet" inverse="true" cascade="all" >
+            <key column="resource_uid" />
+            <one-to-many class="Resource"/>
+        </set>
+
+        <set name="user_collectResourceSet" table="collect" cascade="save-update" >
+            <key column="collect_uid" />
+            <many-to-many class="Resource" column="collect_rid"/>
+        </set>
+        <set name="user_followUserSet" table="follow" cascade="save-update">
+            <key column="follow_uid" />
+            <many-to-many class="User" column="followed_uid"/>
+        </set>
+        <set name="user_followedUserSet" table="follow" inverse="true" cascade="save-update">
+            <key column="followed_uid" />
+            <many-to-many class="User" column="follow_uid"/>
+        </set>
+
+	</class>
+</hibernate-mapping>

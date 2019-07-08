@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.ethan.entity">
+
+	<!-- 建立类与表的映射 -->
+	<class name="Category" table="category">
+		<!-- 建立类中的属性与表中的主键对应 -->
+		<id name="category_id" column="category_id" >
+			<!-- 主键生成策略 -->
+			<generator class="native"/>
+		</id>
+		
+		<!-- 建立类中的普通的属性和表的字段的对应 -->
+		<property name="category_name" column="category_name" />
+		<property name="category_desc" column="category_desc"/>
+
+        <!-- 创建映射 -->
+        <set name="category_resourceSet" inverse="true" cascade="all" >
+            <key column="resource_cid" />
+            <one-to-many class="Resource"/>
+        </set>
+
+		
+	</class>
+</hibernate-mapping>

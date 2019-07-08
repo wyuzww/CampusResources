@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="com.ethan.entity">
+	<!-- 建立类与表的映射 -->
+	<class name="Teacher" table="teacher">
+		<!-- 建立类中的属性与表中的主键对应 -->
+		<id name="teacher_id" column="teacher_id" >
+			<!-- 主键生成策略 -->
+			<generator class="assigned">
+                <!--<param name="property">teacher_user</param>-->
+            </generator>
+		</id>
+		
+		<!-- 建立类中的普通的属性和表的字段的对应 -->
+		<property name="teacher_birth" column="teacher_birth" />
+		<property name="teacher_desc" column="teacher_desc"/>
+        <property name="teacher_sex" column="teacher_sex" />
+        <property name="teacher_name" column="teacher_name"/>
+
+        <!-- 创建映射 -->
+        <one-to-one name="teacher_user" class="User" constrained="true"  />
+
+
+
+	</class>
+</hibernate-mapping>
