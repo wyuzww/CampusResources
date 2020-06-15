@@ -28,7 +28,7 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <!-- 编译编码 -->
         <maven.compiler.encoding>UTF-8</maven.compiler.encoding>
-        <spring.version>4.3.0.RELEASE</spring.version>
+        <spring.version>5.2.7.RELEASE</spring.version>
         <hibernate.version>5.2.2.Final</hibernate.version>
         <struts2.version>2.5.1</struts2.version>
     </properties>
